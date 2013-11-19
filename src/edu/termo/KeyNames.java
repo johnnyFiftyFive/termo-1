@@ -11,7 +11,7 @@ public interface KeyNames {
     public static final String OXYGEN = "Oxygen";
     public static final String NITROGEN = "Nitrogen";
     public static final String ASH = "Ash";
-    public static final String WATER = "Water";
+    public static final String MATERIAL_WATER = "Water";
 
     public static final String CO2 = "CO2";
     public static final String CO = "CO";

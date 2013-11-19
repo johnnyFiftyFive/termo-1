@@ -4,22 +4,34 @@ import java.util.HashMap;
 
 import static edu.termo.KeyNames.*;
 
+/**
+ * Class computes heat of combustion, caloric value, required oxygen and exhaust composition from combustion of gas fuel.
+ */
 public class GasFuelCombustion {
     final double V_MOL = 22.42;
     HashMap<String, Double> elements;
 
-    double fi; /* procentowy współczynnik zawilgocenai powietrza*/
+    /**
+     * absolute air humidity [(kg of H20)/(kg of fuel)
+     */
+    double x;
+    /**
+     * gas humidity [(kg of H20)/(kg of fuel]
+     */
+    double w;
     double lambda;
 
     /**
      * @param elements associative with elements share of solid fuel
      * @param lambda   air fuel ratio
-     * @param fi       air humidity percentage
+     * @param x        air absolute humidity [(kg of H20)/(kg of fuel)
+     * @param w        gas humidity [(kg of H20)/(kg of fuel]
      */
-    public GasFuelCombustion(HashMap<String, Double> elements, double lambda, double fi) {
+    public GasFuelCombustion(HashMap<String, Double> elements, double lambda, double x, double w) {
         this.elements = elements;
-        this.fi = fi;
         this.lambda = lambda;
+        this.x = x;
+        this.w = w;
     }
 
     public void printCombustionParameters() {
@@ -27,10 +39,10 @@ public class GasFuelCombustion {
                 + 62974 * elements.get(C2H4) + 56040 * elements.get(C2H2) + 63729 * elements.get(C2H6);
 
         double r0 = 2500;
-        double w = 18.0 / V_MOL * (elements.get(HYDROGEN) + 2 * elements.get(CH4) + 2 * elements.get(C2H4)
+        double ww = 18.0 / V_MOL * (elements.get(HYDROGEN) + 2 * elements.get(CH4) + 2 * elements.get(C2H4)
                 + 3 * elements.get(C2H6) + elements.get(C2H2));
 
-        double Qs = Qi + r0 * w;
+        double Qs = Qi + r0 * ww;
 
         /* Obliczenie Qi i Qs testowane na zadaniu 2.6.2 ze skryptu*/
 
@@ -39,32 +51,30 @@ public class GasFuelCombustion {
         double Oc = Ot * lambda;/* tlen całkowity*/
 
         double V0 = 100.0 / 21.0 * Ot;
-        double V_wilg = (1.0 + 1.61 * fi) * lambda * V0; /* zapotrzebowanie na powietrze wilgotne*/
+        double V_wilg = (1.0 + 1.61 * x) * lambda * V0; /* zapotrzebowanie na powietrze wilgotne*/
         double V = lambda * V0;  /* powietrze całkowite */
-        /* Zapotrzebowanie testowane na zadaniu 2.6.9 */
+        /* Zapotrzebowanie testowane na zadaniu 2.6.14 */
 
-       /* double V_CO2 = V_MOL / 12.0 * elements.get(CARBON);
-        double V_SO2 = V_MOL / 32.0 * elements.get(SULFUR);
-        double V_H20 = V_MOL * (elements.get(WATER) / 18 + elements.get(HYDROGEN) / 2);
-        double V_N = V_MOL / 28.0 * elements.get(NITROGEN) + 0.79 * lambda * V0;
+        double V_CO2 = elements.get(CO2) + elements.get(CO) + elements.get(CH4) + 2 * elements.get(C2H2) + 2 * elements.get(C2H4) + 2 * elements.get(C2H6);
+        double V_H20 = 2 * elements.get(CH4) + 2 * elements.get(C2H4) + elements.get(C2H2) + 3 * elements.get(C2H6) + elements.get(HYDROGEN)
+                + V_MOL / 18 * w + 1.61 * x * V;
+        double V_N = elements.get(NITROGEN) + 0.79 * lambda * V0;
         double V_O2 = Oc - Ot;
-        double V_spalin = V_CO2 + V_SO2 + V_O2 + V_N;
-        double V_spalin_wilg = V_spalin + V_H20;*/
+        double V_spalin = V_CO2 + V_O2 + V_N;
+        double V_spalin_wilg = V_spalin + V_H20;
 
-        /* Obliczanie składu i objętości paliwa testowane na zadaniu 2.6.11 */
+        /* Obliczanie składu i objętości paliwa testowane na zadaniu 2.6.14 */
 
         System.out.printf("Wartość opałowa: %f kJ/m^3\nCiepło spalania: %f kJ/m^3\n", Qi, Qs);
         System.out.printf("Zapotrzebowanie na powietrze:\n\tsuche: %f m^3/kg" +
                 "\n\tmokre: %f m^3/kg\n", V0, V);
-        /*
         System.out.printf("Udział spalin:\n" +
                 "\tCO2 = %f m^3/(kg paliwa)\n" +
-                "\tSO2 = %f m^3/(kg paliwa)\n" +
                 "\tH20 = %f m^3/(kg paliwa)\n" +
                 "\tN   = %f m^3/(kg paliwa)\n" +
-                "\tO2  = %f m^3/(kg paliwa)\n", V_CO2, V_SO2, V_H20, V_N, V_O2);
+                "\tO2  = %f m^3/(kg paliwa)\n", V_CO2, V_H20, V_N, V_O2);
         System.out.printf("Objętość spalin:\n" +
                 "\tsuchych: %f m^3/(kg paliwa)\n" +
-                "\twilgotnych: %f m^3/(kg paliwa)\n", V_spalin, V_spalin_wilg);*/
+                "\twilgotnych: %f m^3/(kg paliwa)\n", V_spalin, V_spalin_wilg);
     }
 }
