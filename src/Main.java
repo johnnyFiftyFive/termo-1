@@ -1,6 +1,9 @@
+import edu.termo.GasFuelCombustion;
 import edu.termo.SolidFuelCombustion;
-import static edu.termo.KeyNames.*;
+
 import java.util.HashMap;
+
+import static edu.termo.KeyNames.*;
 
 /**
  * @author Kamil Sikora
@@ -17,7 +20,21 @@ public class Main {
         elements.put(ASH, 0.09);
         elements.put(WATER, 0.198);
 
-        SolidFuelCombustion solid = new SolidFuelCombustion(elements, 0.0);
-        solid.printCombustionParameters();
+        SolidFuelCombustion solid = new SolidFuelCombustion(elements, 0.0, 1.1);
+//        solid.printCombustionParameters();
+
+        HashMap<String, Double> gasElements = new HashMap<String, Double>();
+        gasElements.put(HYDROGEN, 0.50);
+        gasElements.put(CH4, 0.27);
+        gasElements.put(C2H2, 0.0);
+        gasElements.put(C2H4, 0.03);
+        gasElements.put(C2H6, 0.0);
+        gasElements.put(CO, 0.05);
+        gasElements.put(CO2, 0.02);
+        gasElements.put(OXYGEN, 0.01);
+        gasElements.put(NITROGEN, 0.12);
+
+        GasFuelCombustion gas = new GasFuelCombustion(gasElements, 1.1, 1.1);
+        gas.printCombustionParameters();
     }
 }
