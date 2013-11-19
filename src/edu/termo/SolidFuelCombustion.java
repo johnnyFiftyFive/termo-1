@@ -1,4 +1,8 @@
+package edu.termo;
+
 import java.util.HashMap;
+
+import static edu.termo.KeyNames.*;
 
 /**
  * @author Kamil Sikora
@@ -9,47 +13,37 @@ public class SolidFuelCombustion {
     final double V_MOL = 22.42;
 
     HashMap<String, Double> elements;
+    double fi; /* procentowy współczynnik zawilgocenai powietrza*/
 
-    public SolidFuelCombustion(HashMap<String, Double> elements){
+    /**
+     * @param elements - associative with elements share of solid fuel
+     */
+    public SolidFuelCombustion(HashMap<String, Double> elements, double fi) {
         this.elements = elements;
+        this.fi = fi;
     }
 
-    public static void main(String[] args) {
-        final double LAMBDA = 1.6; /* Stosunek nadmiaru powietrza*/
-        final double V_MOL = 22.42;
-
-        double fi = 0.0; /* procentowy współczynnik zawilgocenai powietrza*/
-        HashMap<String, Double> elements = new HashMap<String, Double>();
-        elements.put("C", 0.5);
-        elements.put("H", 0.03);
-        elements.put("S", 0.008);
-        elements.put("O", 0.168);
-        elements.put("N", 0.006);
-        elements.put("A", 0.09);
-        elements.put("W", 0.198);
-
-        double Qi = 34080 * elements.get("C") + 142770 * (elements.get("H") - elements.get("O") / 8)
-                + 9290 * elements.get("S") - 2500 * (elements.get("W") + 9 * elements.get("H"));
+    public void printCombustionParameters() {
+        double Qi = 34080 * elements.get(CARBON) + 142770 * (elements.get(HYDROGEN) - elements.get(OXYGEN) / 8)
+                + 9290 * elements.get(SULFUR) - 2500 * (elements.get(WATER) + 9 * elements.get(HYDROGEN));
 
         double r0 = 2500;
-        double w = elements.get("W") + 9 * elements.get("H");
+        double w = elements.get(WATER) + 9 * elements.get(HYDROGEN);
 
         double Qs = Qi + r0 * w;
         /* Obliczenie Qi i Qs testowane na zadaniu 2.6.1 ze skryptu*/
 
-        double Ot = V_MOL * (elements.get("C") / 12 + elements.get("H") / 4 + elements.get("S") / 32 - elements.get("O") / 32); /*tlen teoretyczny*/
+        double Ot = V_MOL * (elements.get(CARBON) / 12 + elements.get(HYDROGEN) / 4 + elements.get(SULFUR) / 32 - elements.get(OXYGEN) / 32); /*tlen teoretyczny*/
         double Oc = Ot * LAMBDA; /*tlen całkowity*/
-
-        System.out.println(Ot + " " + Oc);
 
         double V0 = 100.0 / 21.0 * Ot;
         double V_wilg = (1.0 + 1.61 * fi) * LAMBDA * V0; /* zapotrzebowanie na powietrze wilgotne*/
         double V = LAMBDA * V0;  /* powietrze całkowite */
 
-        double V_CO2 = V_MOL / 12.0 * elements.get("C");
-        double V_SO2 = V_MOL / 32.0 * elements.get("S");
-        double V_H20 = V_MOL * (elements.get("W") / 18 + elements.get("H") / 2);
-        double V_N = V_MOL / 28.0 * elements.get("N") + 0.79 * LAMBDA * V0;
+        double V_CO2 = V_MOL / 12.0 * elements.get(CARBON);
+        double V_SO2 = V_MOL / 32.0 * elements.get(SULFUR);
+        double V_H20 = V_MOL * (elements.get(WATER) / 18 + elements.get(HYDROGEN) / 2);
+        double V_N = V_MOL / 28.0 * elements.get(NITROGEN) + 0.79 * LAMBDA * V0;
         double V_O2 = Oc - Ot;
         double V_spalin = V_CO2 + V_SO2 + V_O2 + V_N;
         double V_spalin_wilg = V_spalin + V_H20;
@@ -68,9 +62,5 @@ public class SolidFuelCombustion {
         System.out.printf("Objętość spalin:\n" +
                 "\tsuchych: %f m^3/(kg paliwa)\n" +
                 "\twilgotnych: %f m^3/(kg paliwa)\n", V_spalin, V_spalin_wilg);
-    }
-
-    public void printCombustionParameters() {
-        //To change body of created methods use File | Settings | File Templates.
     }
 }
