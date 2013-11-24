@@ -41,7 +41,7 @@ public class GasFuelCombustion {
 
         /* Obliczenie Qi i Qs testowane na zadaniu 2.6.2 ze skryptu*/
 
-        double Ot = Ot = 0.5 * elements.get(CO) + 2 * elements.get(CH4) + 3.5 * elements.get(C2H6) +
+        double Ot = 0.5 * elements.get(CO) + 2 * elements.get(CH4) + 3.5 * elements.get(C2H6) +
                 3 * elements.get(C2H4) + 2.5 * elements.get(C2H2) + 0.5 * elements.get(HYDROGEN) - elements.get(OXYGEN); /* tlen teoretyczny*/
         double Oc = Ot * lambda;/* tlen całkowity*/
 
