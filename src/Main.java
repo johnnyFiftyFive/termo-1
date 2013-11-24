@@ -90,19 +90,19 @@ public class Main {
                         elements.put(OXYGEN, Double.parseDouble(readInput()) / 100);
                         System.out.print("\tAzot: ");
                         elements.put(NITROGEN, Double.parseDouble(readInput()) / 100);
+                        System.out.print("\tWoda: ");
+                        elements.put(MATERIAL_WATER, Double.parseDouble(readInput()) / 100);
                         System.out.print("\tWspółczynnik nadmiaru powietrza: ");
                         lambda = Double.parseDouble(readInput());
                         System.out.print("\tWilgotność powietrza [(kg H20)/(kg paliwa): ");
                         x = Double.parseDouble(readInput());
-                        System.out.print("\tWilgotność paliwa [(kg H20)/(kg paliwa): ");
-                        w = Double.parseDouble(readInput());
                     } catch (Exception e) {
                         System.err.println("Podana wartość nie jest wartością liczbową!");
                         continue;
                     }
                     flag = false;
                 }
-                GasFuelCombustion gas = new GasFuelCombustion(elements, lambda, x, w);
+                GasFuelCombustion gas = new GasFuelCombustion(elements, lambda, x);
                 gas.printCombustionParameters();
                 break;
         }

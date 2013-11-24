@@ -55,12 +55,13 @@ public class SolidFuelCombustion {
         System.out.printf("Wartość opałowa: %f kJ/kg\nCiepło spalania: %f kJ/kg\n", Qi, Qs);
         System.out.printf("Zapotrzebowanie na powietrze:\n\tsuche: %f m^3/kg" +
                 "\n\tmokre: %f m^3/kg\n", V0, V);
-        System.out.printf("Udział spalin:\n" +
-                "\tCO2 = %f m^3/(kg paliwa)\n" +
-                "\tSO2 = %f m^3/(kg paliwa)\n" +
-                "\tH20 = %f m^3/(kg paliwa)\n" +
-                "\tN   = %f m^3/(kg paliwa)\n" +
-                "\tO2  = %f m^3/(kg paliwa)\n", V_CO2, V_SO2, V_H20, V_N, V_O2);
+        System.out.printf("Udział procentowy spalin:\n" +
+                "\tCO2 = %f %%\n" +
+                "\tSO2 = %f %%\n" +
+                "\tH20 = %f %%\n" +
+                "\tN   = %f %%\n" +
+                "\tO2  = %f %%\n",
+                V_CO2 / V_spalin_wilg * 100.0, V_SO2 / V_spalin_wilg * 100.0, V_H20 / V_spalin_wilg * 100.0, V_N / V_spalin_wilg * 100.0, V_O2 / V_spalin_wilg * 100.0);
         System.out.printf("Objętość spalin:\n" +
                 "\tsuchych: %f m^3/(kg paliwa)\n" +
                 "\twilgotnych: %f m^3/(kg paliwa)\n", V_spalin, V_spalin_wilg);
