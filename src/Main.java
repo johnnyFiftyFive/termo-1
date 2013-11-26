@@ -1,3 +1,4 @@
+import edu.termo.CombustionProcess;
 import edu.termo.GasFuelCombustion;
 import edu.termo.SolidFuelCombustion;
 
@@ -33,6 +34,8 @@ public class Main {
 
         flag = true;
         HashMap<String, Double> elements = new HashMap<String, Double>();
+        CombustionProcess combustionProcess = null;
+
         double lambda = 0, x = 0, w = 0;
         switch (option) {
             case 1:
@@ -64,8 +67,7 @@ public class Main {
                     flag = false;
                 }
 
-                SolidFuelCombustion solid = new SolidFuelCombustion(elements, lambda, x);
-                solid.printCombustionParameters();
+                combustionProcess = new SolidFuelCombustion(elements, lambda, x);
                 break;
 
             case 2:
@@ -102,10 +104,12 @@ public class Main {
                     }
                     flag = false;
                 }
-                GasFuelCombustion gas = new GasFuelCombustion(elements, lambda, x);
-                gas.printCombustionParameters();
+
+                combustionProcess = new GasFuelCombustion(elements, lambda, x);
                 break;
         }
+
+        combustionProcess.printCombustionParameters();
     }
 
     private static String readInput() {

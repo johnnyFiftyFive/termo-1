@@ -7,15 +7,7 @@ import static edu.termo.KeyNames.*;
 /**
  * Class computes heat of combustion, caloric value, required oxygen and exhaust composition from combustion of gas fuel.
  */
-public class GasFuelCombustion {
-    final double V_MOL = 22.42;
-    HashMap<String, Double> elements;
-
-    /**
-     * absolute air humidity [(kg of H20)/(kg of fuel)
-     */
-    double x;
-    double lambda;
+public class GasFuelCombustion extends CombustionProcess {
 
     /**
      * @param elements associative with elements share of solid fuel
@@ -23,10 +15,10 @@ public class GasFuelCombustion {
      * @param x        air absolute humidity [(kg of H20)/(kg of fuel)
      */
     public GasFuelCombustion(HashMap<String, Double> elements, double lambda, double x) {
+        super(x, lambda);
         this.elements = elements;
-        this.lambda = lambda;
-        this.x = x;
     }
+
 
     public void printCombustionParameters() {
         double r0 = 2500;
@@ -60,7 +52,8 @@ public class GasFuelCombustion {
 
         /* Obliczanie składu i objętości paliwa testowane na zadaniu 2.6.14 */
 
-        System.out.printf("Wartość opałowa: %f kJ/m^3\nCiepło spalania: %f kJ/m^3\n", Qi, Qs);
+        System.out.printf("\nWartość opałowa: %f kJ/m^3\nCiepło spalania: %f kJ/m^3\n", Qi, Qs);
+        System.out.printf("Tlen teoretyczny: %f m^3\nTlen całkowity: %f m^3\n", Ot, Oc);
         System.out.printf("Zapotrzebowanie na powietrze:\n\tsuche: %f m^3/kg" +
                 "\n\tmokre: %f m^3/kg\n", V0, V);
         System.out.printf("Udział spalin:\n" +
@@ -70,7 +63,7 @@ public class GasFuelCombustion {
                 "\tO2  = %f %%\n",
                 V_CO2 / V_spalin_wilg * 100, V_H20 / V_spalin_wilg * 100.0, V_N / V_spalin_wilg * 100.0, V_O2 / V_spalin_wilg * 100.0);
         System.out.printf("Objętość spalin:\n" +
-                "\tsuchych: %f m^3/(kg paliwa)\n" +
-                "\twilgotnych: %f m^3/(kg paliwa)\n", V_spalin, V_spalin_wilg);
+                "\tsuchych: %f m^3/(m^3 paliwa)\n" +
+                "\twilgotnych: %f m^3/(m^3 paliwa)\n", V_spalin, V_spalin_wilg);
     }
 }

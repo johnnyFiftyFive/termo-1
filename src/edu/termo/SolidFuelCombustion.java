@@ -7,12 +7,7 @@ import static edu.termo.KeyNames.*;
 /**
  * Class computes heat of combustion, caloric value, required oxygen and exhaust composition from combustion of solid fuel.
  */
-public class SolidFuelCombustion {
-    final double V_MOL = 22.42;
-    HashMap<String, Double> elements;
-
-    double x;
-    double lambda = 1.0;
+public class SolidFuelCombustion extends CombustionProcess {
 
     /**
      * @param elements hash map with elements share of solid fuel
@@ -20,6 +15,7 @@ public class SolidFuelCombustion {
      * @param x        absolute air humidity [(kg of H20)/(kg of fuel)
      */
     public SolidFuelCombustion(HashMap<String, Double> elements, double lambda, double x) {
+        super(x, lambda);
         this.elements = elements;
         this.x = x;
         this.lambda = lambda;
