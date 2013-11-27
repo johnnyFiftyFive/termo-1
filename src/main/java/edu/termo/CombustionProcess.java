@@ -18,8 +18,8 @@ public abstract class CombustionProcess {
     protected double x;
     protected double lambda;
 
-    protected Double Qi;
     protected Double Qs;
+    protected Double Qi;
 
     public CombustionProcess(double x, double lambda) {
         this.x = x;
