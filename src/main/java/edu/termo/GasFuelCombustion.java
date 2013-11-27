@@ -25,7 +25,7 @@ public class GasFuelCombustion extends CombustionProcess {
 
         /* Obliczenie Qi i Qs testowane na zadaniu 2.6.2 ze skryptu*/
 
-        double Ot = 0.5 * elements.get(CO) + 2 * elements.get(CH4) + 3.5 * elements.get(C2H6) +
+        Ot = 0.5 * elements.get(CO) + 2 * elements.get(CH4) + 3.5 * elements.get(C2H6) +
                 3 * elements.get(C2H4) + 2.5 * elements.get(C2H2) + 0.5 * elements.get(HYDROGEN) - elements.get(OXYGEN); /* tlen teoretyczny*/
         double Oc = Ot * lambda;/* tlen całkowity*/
 
@@ -74,7 +74,7 @@ public class GasFuelCombustion extends CombustionProcess {
     public double getHeatOfCombustion() {
         return Qi == null ? Qi = 12629 * elements.get(CO) + 10749 * elements.get(HYDROGEN) + 35810 * elements.get(CH4)
                 + 62974 * elements.get(C2H4) + 56040 * elements.get(C2H2) + 63729 * elements.get(C2H6)
-                - r0 * elements.get(WATER) : Qi;
+                : Qi;
     }
 
     @Override
@@ -87,5 +87,11 @@ public class GasFuelCombustion extends CombustionProcess {
         }
 
         return Qs;
+    }
+
+    @Override
+    public Double getTheoreticalOxygen() {
+        return Ot == null ? Ot = 0.5 * elements.get(CO) + 2 * elements.get(CH4) + 3.5 * elements.get(C2H6) +
+                3 * elements.get(C2H4) + 2.5 * elements.get(C2H2) + 0.5 * elements.get(HYDROGEN) - elements.get(OXYGEN) : Ot;
     }
 }

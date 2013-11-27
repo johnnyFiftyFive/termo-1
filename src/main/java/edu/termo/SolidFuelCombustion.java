@@ -52,7 +52,7 @@ public class SolidFuelCombustion extends CombustionProcess {
 
         /* Obliczanie składu i objętości paliwa testowane na zadaniu 2.6.11 */
 
-        System.out.printf("Wartość opałowa: %f kJ/kg\nCiepło spalania: %f kJ/kg\n", Qi, Qs);
+        System.out.printf("Wartość opałowa: %f kJ/kg\nCiepło spalania: %f kJ/kg\n", Qs, Qi);
         System.out.printf("Zapotrzebowanie na powietrze:\n\tsuche: %f m^3/kg" +
                 "\n\tmokre: %f m^3/kg\n", V0, V);
         System.out.printf("Udział procentowy spalin:\n" +
@@ -72,18 +72,23 @@ public class SolidFuelCombustion extends CombustionProcess {
     /* Obliczenie Qi i Qs testowane na zadaniu 2.6.1 ze skryptu*/
     @Override
     public double getHeatOfCombustion() {
-        return Qi == null ? Qi = 34080 * elements.get(CARBON) + 142770 * (elements.get(HYDROGEN) - elements.get(OXYGEN) / 8)
-                + 9290 * elements.get(SULFUR) - 2500 * (elements.get(WATER) + 9 * elements.get(HYDROGEN)) : Qi;
+        return Qs == null ? Qs = 34080 * elements.get(CARBON) + 142770 * (elements.get(HYDROGEN) - elements.get(OXYGEN) / 8)
+                + 9290 * elements.get(SULFUR) - 2500 * (elements.get(WATER) + 9 * elements.get(HYDROGEN)) : Qs;
     }
 
     @Override
     public double getHeatingValue() {
-        if (Qs == null) {
+        if (Qi == null) {
             double w = elements.get(WATER) + 9 * elements.get(HYDROGEN);
 
-            Qs = (Qi == null ? getHeatOfCombustion() : Qi) + r0 * w;
+            Qi = (Qs == null ? getHeatOfCombustion() : Qs) + r0 * w;
         }
 
-        return Qs;
+        return Qi;
+    }
+
+    @Override
+    public Double getTheoreticalOxygen() {
+        return Ot == null ? Ot = V_MOL * (elements.get(CARBON) / 12 + elements.get(HYDROGEN) / 4 + elements.get(SULFUR) / 32 - elements.get(OXYGEN) / 32) : Ot;
     }
 }

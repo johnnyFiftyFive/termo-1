@@ -2,6 +2,7 @@ package edu.termo.tests;
 
 import edu.termo.CombustionProcess;
 import edu.termo.GasFuelCombustion;
+import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -20,22 +21,22 @@ public class GasCombustionTest {
     private CombustionProcess combustion;
 
     @Before
-    public void prepareSolidCombustionTest() {
+    public void prepareFumesTest() {
         HashMap<String, Double> elements = new HashMap<String, Double>();
 
-        elements.put(HYDROGEN, 0.50);
-        elements.put(CH4, 0.16);
+        elements.put(HYDROGEN, 0.95);
+        elements.put(CH4, 0.0);
         elements.put(C2H2, 0.0);
-        elements.put(C2H4, 0.02);
+        elements.put(C2H4, 0.0);
         elements.put(C2H6, 0.0);
-        elements.put(CO, 0.15);
-        elements.put(CO2, 0.05);
-        elements.put(OXYGEN, 0.2);
-        elements.put(NITROGEN, 0.10);
-        elements.put(WATER, 0.0);
+        elements.put(CO, 0.0);
+        elements.put(CO2, 0.0);
+        elements.put(OXYGEN, 0.0);
+        elements.put(NITROGEN, 0.0);
+        elements.put(WATER, 0.05);
 
         double lambda = 1.0;
-        double x = 0.0;
+        double x = 0.05;
 
         combustion = new GasFuelCombustion(elements, lambda, x);
     }
@@ -52,17 +53,43 @@ public class GasCombustionTest {
             sum += (entry.getValue() / fumes.get(WET_FUMES) * 100);
         }
 
-        Assert.assertTrue(100.0 == sum);
+        Assert.assertTrue(String.valueOf(sum), 100.0 == Math.floor(sum));
     }
 
     /* After modification of fuel composition modification of expected values needed. */
     @Test
     public void heatOfCombustionTest() {
-        Assert.assertTrue(String.valueOf(combustion.getHeatOfCombustion()), 14273.0 == combustion.getHeatOfCombustion());
+        Assert.assertTrue(String.valueOf(combustion.getHeatOfCombustion()), 10211 == Math.floor(combustion.getHeatOfCombustion()));
     }
 
     @Test
     public void heatingValueTest() {
-        Assert.assertTrue(String.valueOf(combustion.getHeatingValue()), 16040.0 == combustion.getHeatingValue());
+        Assert.assertTrue(String.valueOf(combustion.getHeatingValue()), 12243 == Math.floor(combustion.getHeatingValue()));
+    }
+
+    private void prepareOxygenRequirementTest() {
+        HashMap<String, Double> elements = new HashMap<String, Double>();
+
+        elements.put(HYDROGEN, 0.0);
+        elements.put(CH4, 1.0);
+        elements.put(C2H2, 0.0);
+        elements.put(C2H4, 0.0);
+        elements.put(C2H6, 0.0);
+        elements.put(CO, 0.0);
+        elements.put(CO2, 0.0);
+        elements.put(OXYGEN, 0.0);
+        elements.put(NITROGEN, 0.0);
+        elements.put(WATER, 0.0);
+
+        double lambda = 1.0;
+        double x = 0.0;
+
+        combustion = new GasFuelCombustion(elements, lambda, x);
+    }
+
+    @Test
+    public void theoreticalOxygenTest() {
+        prepareOxygenRequirementTest();
+        Assert.assertTrue(2 == combustion.getTheoreticalOxygen());
     }
 }
