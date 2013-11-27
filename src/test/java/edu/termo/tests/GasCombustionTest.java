@@ -2,7 +2,6 @@ package edu.termo.tests;
 
 import edu.termo.CombustionProcess;
 import edu.termo.GasFuelCombustion;
-import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -43,7 +42,7 @@ public class GasCombustionTest {
 
     @Test
     public void fumesIntegrityTest() {
-        HashMap<String, Double> fumes = combustion.getFumesComposition();
+        HashMap<String, Double> fumes = combustion.getFumesVolumes();
 
         double sum = 0.0;
         for (Map.Entry<String, Double> entry : fumes.entrySet()) {

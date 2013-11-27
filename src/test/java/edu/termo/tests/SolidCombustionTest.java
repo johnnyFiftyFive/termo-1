@@ -38,7 +38,7 @@ public class SolidCombustionTest {
 
     @Test
     public void fumesIntegrityTest() {
-        HashMap<String, Double> fumes = combustion.getFumesComposition();
+        HashMap<String, Double> fumes = combustion.getFumesVolumes();
 
         double sum = 0.0;
         for (Map.Entry<String, Double> entry : fumes.entrySet()) {

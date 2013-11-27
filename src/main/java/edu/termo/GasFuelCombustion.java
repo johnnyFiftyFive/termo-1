@@ -20,13 +20,12 @@ public class GasFuelCombustion extends CombustionProcess {
     }
 
 
-    public HashMap<String, Double> getFumesComposition() {
+    public HashMap<String, Double> getFumesVolumes() {
         getHeatingValue();
 
         /* Obliczenie Qi i Qs testowane na zadaniu 2.6.2 ze skryptu*/
 
-        Ot = 0.5 * elements.get(CO) + 2 * elements.get(CH4) + 3.5 * elements.get(C2H6) +
-                3 * elements.get(C2H4) + 2.5 * elements.get(C2H2) + 0.5 * elements.get(HYDROGEN) - elements.get(OXYGEN); /* tlen teoretyczny*/
+        Ot = getTheoreticalOxygen(); /* tlen teoretyczny*/
         double Oc = Ot * lambda;/* tlen całkowity*/
 
         double V0 = 100.0 / 21.0 * Ot;
@@ -53,19 +52,6 @@ public class GasFuelCombustion extends CombustionProcess {
 
         /* Obliczanie składu i objętości paliwa testowane na zadaniu 2.6.14 */
 
-        System.out.printf("\nWartość opałowa: %f kJ/m^3\nCiepło spalania: %f kJ/m^3\n", Qi, Qs);
-        System.out.printf("Tlen teoretyczny: %f m^3\nTlen całkowity: %f m^3\n", Ot, Oc);
-        System.out.printf("Zapotrzebowanie na powietrze:\n\tsuche: %f m^3/kg" +
-                "\n\tmokre: %f m^3/kg\n", V0, V);
-        System.out.printf("Udział spalin:\n" +
-                "\tCO2 = %f %%\n" +
-                "\tH20 = %f %%\n" +
-                "\tN   = %f %%\n" +
-                "\tO2  = %f %%\n",
-                V_CO2 / V_spalin_wilg * 100, V_H20 / V_spalin_wilg * 100.0, V_N / V_spalin_wilg * 100.0, V_O2 / V_spalin_wilg * 100.0);
-        System.out.printf("Objętość spalin:\n" +
-                "\tsuchych: %f m^3/(m^3 paliwa)\n" +
-                "\twilgotnych: %f m^3/(m^3 paliwa)\n", V_spalin, V_spalin_wilg);
 
         return fumes;
     }
@@ -93,5 +79,27 @@ public class GasFuelCombustion extends CombustionProcess {
     public Double getTheoreticalOxygen() {
         return Ot == null ? Ot = 0.5 * elements.get(CO) + 2 * elements.get(CH4) + 3.5 * elements.get(C2H6) +
                 3 * elements.get(C2H4) + 2.5 * elements.get(C2H2) + 0.5 * elements.get(HYDROGEN) - elements.get(OXYGEN) : Ot;
+    }
+
+    @Override
+    public void printInfo() {
+        HashMap<String, Double> fumesVolumes = getFumesVolumes();
+        double V_spalin_wilg = elements.get(WET_FUMES);
+        double V0 = 100.0 / 21.0 * getTheoreticalOxygen();
+
+        System.out.printf("\nWartość opałowa: %f kJ/m^3\nCiepło spalania: %f kJ/m^3\n", Qi, Qs);
+        System.out.printf("Tlen teoretyczny: %f m^3\nTlen całkowity: %f m^3\n", Ot, Ot * lambda);
+        System.out.printf("Zapotrzebowanie na powietrze:\n\tsuche: %f m^3/kg" +
+                "\n\tmokre: %f m^3/kg\n", V0, V0 * lambda);
+        System.out.printf("Udział spalin:\n" +
+                "\tCO2 = %f %%\n" +
+                "\tH20 = %f %%\n" +
+                "\tN   = %f %%\n" +
+                "\tO2  = %f %%\n",
+                fumesVolumes.get(CO2) / V_spalin_wilg * 100, fumesVolumes.get(WATER) / V_spalin_wilg * 100.0, fumesVolumes.get(NITROGEN) / V_spalin_wilg * 100.0, fumesVolumes.get(OXYGEN) / V_spalin_wilg * 100.0);
+        System.out.printf("Objętość spalin:\n" +
+                "\tsuchych: %f m^3/(m^3 paliwa)\n" +
+                "\twilgotnych: %f m^3/(m^3 paliwa)\n", fumesVolumes.get(DRY_FUMES), V_spalin_wilg);
+
     }
 }

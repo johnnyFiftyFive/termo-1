@@ -30,11 +30,13 @@ public abstract class CombustionProcess {
     /**
      * @return composition of fumes.
      */
-    public abstract HashMap<String, Double> getFumesComposition();
+    public abstract HashMap<String, Double> getFumesVolumes();
 
     public abstract double getHeatOfCombustion();
 
     public abstract double getHeatingValue();
 
     public abstract Double getTheoreticalOxygen();
+
+    public abstract void printInfo();
 }
