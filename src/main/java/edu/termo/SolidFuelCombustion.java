@@ -86,4 +86,9 @@ public class SolidFuelCombustion extends CombustionProcess {
 
         return Qi;
     }
+
+    @Override
+    public Double getTheoreticalOxygen() {
+        return Ot == null ? Ot = V_MOL * (elements.get(CARBON) / 12 + elements.get(HYDROGEN) / 4 + elements.get(SULFUR) / 32 - elements.get(OXYGEN) / 32) : Ot;
+    }
 }

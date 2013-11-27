@@ -20,6 +20,7 @@ public abstract class CombustionProcess {
 
     protected Double Qs;
     protected Double Qi;
+    protected Double Ot;
 
     public CombustionProcess(double x, double lambda) {
         this.x = x;
@@ -34,4 +35,6 @@ public abstract class CombustionProcess {
     public abstract double getHeatOfCombustion();
 
     public abstract double getHeatingValue();
+
+    public abstract Double getTheoreticalOxygen();
 }
