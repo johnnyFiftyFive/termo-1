@@ -20,16 +20,8 @@ public class GasFuelCombustion extends CombustionProcess {
     }
 
 
-    public void printCombustionParameters() {
-        double r0 = 2500;
-        double Qi = 12629 * elements.get(CO) + 10749 * elements.get(HYDROGEN) + 35810 * elements.get(CH4)
-                + 62974 * elements.get(C2H4) + 56040 * elements.get(C2H2) + 63729 * elements.get(C2H6)
-                - r0 * elements.get(MATERIAL_WATER);
-
-        double ww = 18.0 / V_MOL * (elements.get(HYDROGEN) + 2 * elements.get(CH4) + 2 * elements.get(C2H4)
-                + 3 * elements.get(C2H6) + elements.get(C2H2)) + elements.get(MATERIAL_WATER);
-
-        double Qs = Qi + r0 * ww;
+    public HashMap<String, Double> getFumesComposition() {
+        getHeatingValue();
 
         /* Obliczenie Qi i Qs testowane na zadaniu 2.6.2 ze skryptu*/
 
@@ -42,13 +34,22 @@ public class GasFuelCombustion extends CombustionProcess {
         double V = lambda * V0;  /* powietrze całkowite */
         /* Zapotrzebowanie testowane na zadaniu 2.6.14 */
 
+        HashMap<String, Double> fumes = new HashMap<String, Double>();
+
         double V_CO2 = elements.get(CO2) + elements.get(CO) + elements.get(CH4) + 2 * elements.get(C2H2) + 2 * elements.get(C2H4) + 2 * elements.get(C2H6);
         double V_H20 = 2 * elements.get(CH4) + 2 * elements.get(C2H4) + elements.get(C2H2) + 3 * elements.get(C2H6) + elements.get(HYDROGEN)
-                + V_MOL / 18 * elements.get(MATERIAL_WATER) + 1.61 * x * V;
+                + V_MOL / 18 * elements.get(WATER) + 1.61 * x * V;
         double V_N = elements.get(NITROGEN) + 0.79 * lambda * V0;
         double V_O2 = Oc - Ot;
         double V_spalin = V_CO2 + V_O2 + V_N;
         double V_spalin_wilg = V_spalin + V_H20;
+
+        fumes.put(CO2, V_CO2);
+        fumes.put(WATER, V_H20);
+        fumes.put(NITROGEN, V_N);
+        fumes.put(OXYGEN, V_O2);
+        fumes.put(KeyNames.DRY_FUMES, V_spalin);
+        fumes.put(KeyNames.WET_FUMES, V_spalin_wilg);
 
         /* Obliczanie składu i objętości paliwa testowane na zadaniu 2.6.14 */
 
@@ -65,5 +66,26 @@ public class GasFuelCombustion extends CombustionProcess {
         System.out.printf("Objętość spalin:\n" +
                 "\tsuchych: %f m^3/(m^3 paliwa)\n" +
                 "\twilgotnych: %f m^3/(m^3 paliwa)\n", V_spalin, V_spalin_wilg);
+
+        return fumes;
+    }
+
+    @Override
+    public double getHeatOfCombustion() {
+        return Qi == null ? Qi = 12629 * elements.get(CO) + 10749 * elements.get(HYDROGEN) + 35810 * elements.get(CH4)
+                + 62974 * elements.get(C2H4) + 56040 * elements.get(C2H2) + 63729 * elements.get(C2H6)
+                - r0 * elements.get(WATER) : Qi;
+    }
+
+    @Override
+    public double getHeatingValue() {
+        if (Qs == null) {
+            double ww = 18.0 / V_MOL * (elements.get(HYDROGEN) + 2 * elements.get(CH4) + 2 * elements.get(C2H4)
+                    + 3 * elements.get(C2H6) + elements.get(C2H2)) + elements.get(WATER);
+
+            Qs = (Qi == null ? getHeatOfCombustion() : Qi) + r0 * ww;
+        }
+
+        return Qs;
     }
 }

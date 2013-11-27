@@ -55,7 +55,7 @@ public class Main {
                         System.out.print("\tPopiół: ");
                         elements.put(ASH, Double.parseDouble(readInput()) / 100);
                         System.out.print("\tWilgotność: ");
-                        elements.put(MATERIAL_WATER, Double.parseDouble(readInput()) / 100);
+                        elements.put(WATER, Double.parseDouble(readInput()) / 100);
                         System.out.print("\tWspółczynnik nadmiaru powietrza: ");
                         lambda = Double.parseDouble(readInput());
                         System.out.print("\tWilgotność powietrza [(kg H20)/(kg paliwa): ");
@@ -93,7 +93,7 @@ public class Main {
                         System.out.print("\tAzot: ");
                         elements.put(NITROGEN, Double.parseDouble(readInput()) / 100);
                         System.out.print("\tWoda: ");
-                        elements.put(MATERIAL_WATER, Double.parseDouble(readInput()) / 100);
+                        elements.put(WATER, Double.parseDouble(readInput()) / 100);
                         System.out.print("\tWspółczynnik nadmiaru powietrza: ");
                         lambda = Double.parseDouble(readInput());
                         System.out.print("\tWilgotność powietrza [(kg H20)/(kg paliwa): ");
@@ -109,7 +109,7 @@ public class Main {
                 break;
         }
 
-        combustionProcess.printCombustionParameters();
+        combustionProcess.getFumesComposition();
     }
 
     private static String readInput() {
