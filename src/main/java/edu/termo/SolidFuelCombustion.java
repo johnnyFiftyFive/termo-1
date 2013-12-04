@@ -80,7 +80,7 @@ public class SolidFuelCombustion extends CombustionProcess {
     @Override
     public void printInfo() {
         HashMap<String, Double> fumesVolumes = getFumesVolumes();
-        double V_spalin_wilg = elements.get(WET_FUMES);
+        double V_spalin_wilg = fumesVolumes.get(WET_FUMES);
         double V0 = 100.0 / 21.0 * getTheoreticalOxygen();
 
         System.out.printf("Wartość opałowa: %f kJ/kg\nCiepło spalania: %f kJ/kg\n", Qs, Qi);

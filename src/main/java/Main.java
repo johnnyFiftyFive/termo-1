@@ -109,7 +109,7 @@ public class Main {
                 break;
         }
 
-        combustionProcess.getFumesVolumes();
+        combustionProcess.printInfo();
     }
 
     private static String readInput() {

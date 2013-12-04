@@ -21,7 +21,7 @@ public class GasFuelCombustion extends CombustionProcess {
 
 
     public HashMap<String, Double> getFumesVolumes() {
-        getHeatingValue();
+        getHeatOfCombustion();
 
         /* Obliczenie Qi i Qs testowane na zadaniu 2.6.2 ze skryptu*/
 
@@ -58,21 +58,16 @@ public class GasFuelCombustion extends CombustionProcess {
 
     @Override
     public double getHeatOfCombustion() {
-        return Qi == null ? Qi = 12629 * elements.get(CO) + 10749 * elements.get(HYDROGEN) + 35810 * elements.get(CH4)
-                + 62974 * elements.get(C2H4) + 56040 * elements.get(C2H2) + 63729 * elements.get(C2H6)
-                : Qi;
+        double ww = 18.0 / V_MOL * (elements.get(HYDROGEN) + 2 * elements.get(CH4) + elements.get(C2H2) +
+                3 * elements.get(C2H6) + 2 * elements.get(C2H4) + elements.get(WATER));
+        return Qi == null ? Qi = getHeatingValue() - 2500 * ww : Qi;
     }
 
     @Override
     public double getHeatingValue() {
-        if (Qs == null) {
-            double ww = 18.0 / V_MOL * (elements.get(HYDROGEN) + 2 * elements.get(CH4) + 2 * elements.get(C2H4)
-                    + 3 * elements.get(C2H6) + elements.get(C2H2)) + elements.get(WATER);
-
-            Qs = (Qi == null ? getHeatOfCombustion() : Qi) + r0 * ww;
-        }
-
-        return Qs;
+        return Qs == null ? Qs = 12629 * elements.get(CO) + 12756 * elements.get(HYDROGEN) + 39736 * elements.get(CH4)
+                + 63180 * elements.get(C2H4) + 58003 * elements.get(C2H2) + 69617 * elements.get(C2H6)
+                : Qs;
     }
 
     @Override
@@ -84,7 +79,7 @@ public class GasFuelCombustion extends CombustionProcess {
     @Override
     public void printInfo() {
         HashMap<String, Double> fumesVolumes = getFumesVolumes();
-        double V_spalin_wilg = elements.get(WET_FUMES);
+        double V_spalin_wilg = fumesVolumes.get(WET_FUMES);
         double V0 = 100.0 / 21.0 * getTheoreticalOxygen();
 
         System.out.printf("\nWartość opałowa: %f kJ/m^3\nCiepło spalania: %f kJ/m^3\n", Qi, Qs);
