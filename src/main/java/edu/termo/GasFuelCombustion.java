@@ -83,9 +83,9 @@ public class GasFuelCombustion extends CombustionProcess {
         double V0 = 100.0 / 21.0 * getTheoreticalOxygen();
 
         System.out.printf("\nWartość opałowa: %f kJ/m^3\nCiepło spalania: %f kJ/m^3\n", Qi, Qs);
-        System.out.printf("Tlen teoretyczny: %f m^3\nTlen całkowity: %f m^3\n", Ot, Ot * lambda);
+        System.out.printf("Tlen teoretyczny: %f m^3\nTlen całkowity: %f m^3\n", Ot, Ot);
         System.out.printf("Zapotrzebowanie na powietrze:\n\tsuche: %f m^3/kg" +
-                "\n\tmokre: %f m^3/kg\n", V0, V0 * lambda);
+                "\n\tmokre: %f m^3/kg\n", V0, (1.0 + 1.61 * x) * V0);
         System.out.printf("Udział spalin:\n" +
                 "\tCO2 = %f %%\n" +
                 "\tH20 = %f %%\n" +
