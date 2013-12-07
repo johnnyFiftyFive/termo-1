@@ -71,7 +71,7 @@ public class Main {
                 break;
 
             case 2:
-                System.out.println("Wybrano paliwo stałe.\nPodaj robocze udziały procentowe składników:");
+                System.out.println("Wybrano paliwo gazowe.\nPodaj robocze udziały procentowe składników:");
                 while (flag) {
                     try {
                         System.out.print("\tWodór: ");
