@@ -23,7 +23,7 @@ public class GasCombustionTest {
     public void prepareFumesTest() {
         HashMap<String, Double> elements = new HashMap<String, Double>();
 
-        elements.put(HYDROGEN, 0.95);
+        elements.put(HYDROGEN, 0.90);
         elements.put(CH4, 0.0);
         elements.put(C2H2, 0.0);
         elements.put(C2H4, 0.0);
@@ -32,9 +32,9 @@ public class GasCombustionTest {
         elements.put(CO2, 0.0);
         elements.put(OXYGEN, 0.0);
         elements.put(NITROGEN, 0.0);
-        elements.put(WATER, 0.05);
+        elements.put(WATER, 0.1);
 
-        double lambda = 1.0;
+        double lambda = 1.2;
         double x = 0.05;
 
         combustion = new GasFuelCombustion(elements, lambda, x);
@@ -58,12 +58,12 @@ public class GasCombustionTest {
     /* After modification of fuel composition modification of expected values needed. */
     @Test
     public void heatOfCombustionTest() {
-        Assert.assertTrue(String.valueOf(combustion.getHeatOfCombustion()), 10211 == Math.floor(combustion.getHeatOfCombustion()));
+        Assert.assertTrue(String.valueOf(combustion.getHeatOfCombustion()), 9473 == Math.floor(combustion.getHeatOfCombustion()));
     }
 
     @Test
     public void heatingValueTest() {
-        Assert.assertTrue(String.valueOf(combustion.getHeatingValue()), 12243 == Math.floor(combustion.getHeatingValue()));
+        Assert.assertTrue(String.valueOf(combustion.getHeatingValue()), 11480 == Math.floor(combustion.getHeatingValue()));
     }
 
     private void prepareOxygenRequirementTest() {
