@@ -1,2 +1,3 @@
-# termo-1
+termo-1
+=======
 Project for thermodynamics classes.

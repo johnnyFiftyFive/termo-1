@@ -96,7 +96,7 @@ public class Main {
                         elements.put(WATER, Double.parseDouble(readInput()) / 100);
                         System.out.print("\tWspółczynnik nadmiaru powietrza: ");
                         lambda = Double.parseDouble(readInput());
-                        System.out.print("\tWilgotność powietrza [(kg H20)/(kg paliwa): ");
+                        System.out.print("\tWilgotność powietrza [(kg H20)/(m^3 paliwa): ");
                         x = Double.parseDouble(readInput());
                     } catch (Exception e) {
                         System.err.println("Podana wartość nie jest wartością liczbową!");
